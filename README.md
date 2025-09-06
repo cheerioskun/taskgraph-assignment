@@ -1,5 +1,4 @@
-# TaskGraph Validator and Visualizer
-## A take home assignment for Sarvam AI
+# TaskGraph Validator
 
 ### Overview
 This project implements a TaskGraph class that represents a directed graph with specific invariants. It includes

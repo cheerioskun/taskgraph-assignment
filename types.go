@@ -43,5 +43,4 @@ type ValidationError struct {
 type ExecutionState struct {
 	Frontier  []string `json:"frontier"`
 	Completed []string `json:"completed"`
-	Active    []string `json:"active"`
 }

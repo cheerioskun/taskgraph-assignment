@@ -27,6 +27,22 @@ func TestValidateConnectivity(t *testing.T) {
 			expectedErrors: []error{},
 		},
 		{
+			name: "graph with cycle",
+			nodes: []TaskNode{
+				{ID: "start", Type: StartNode},
+				{ID: "A", Type: AgentNode},
+				{ID: "B", Type: ToolNode},
+				{ID: "end", Type: EndNode},
+			},
+			edges: []TaskEdge{
+				{From: "start", To: "A"},
+				{From: "A", To: "B"},
+				{From: "B", To: "A"}, // Cycle here
+				{From: "B", To: "end"},
+			},
+			expectedErrors: []error{},
+		},
+		{
 			name: "graph with isolated node",
 			nodes: []TaskNode{
 				{ID: "start", Type: StartNode},
@@ -65,7 +81,7 @@ func TestValidateConnectivity(t *testing.T) {
 			expectedErrors: []error{ErrOrphanedNodes},
 		},
 		{
-			name: "graph with multiple connectivity issues",
+			name: "graph with cycle and multiple connectivity issues",
 			nodes: []TaskNode{
 				{ID: "start", Type: StartNode},
 				{ID: "isolated1", Type: AgentNode},
@@ -79,7 +95,7 @@ func TestValidateConnectivity(t *testing.T) {
 				{From: "start", To: "orphaned"},
 				{From: "start", To: "A"},
 				{From: "A", To: "end"},
-				{From: "A", To: "A"},
+				{From: "A", To: "A"}, // Cycle
 				{From: "isolated1", To: "isolated2"},
 				{From: "unrunnable", To: "end"},
 			},
