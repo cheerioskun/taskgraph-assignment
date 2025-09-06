@@ -1,0 +1,105 @@
+{
+  "nodes": [
+    {
+      "id": "start",
+      "type": "start",
+      "metadata": {
+        "x": 100,
+        "y": 200,
+        "description": "Entry point for task processing"
+      }
+    },
+    {
+      "id": "analyze_input",
+      "type": "agent",
+      "metadata": {
+        "x": 280,
+        "y": 200,
+        "description": "AI agent analyzes input and decides routing"
+      }
+    },
+    {
+      "id": "simple_task",
+      "type": "tool",
+      "metadata": {
+        "x": 460,
+        "y": 120,
+        "description": "Handle simple cases with deterministic processing"
+      }
+    },
+    {
+      "id": "complex_task",
+      "type": "agent",
+      "metadata": {
+        "x": 460,
+        "y": 280,
+        "description": "AI agent handles complex cases"
+      }
+    },
+    {
+      "id": "review",
+      "type": "agent",
+      "metadata": {
+        "x": 640,
+        "y": 200,
+        "description": "Review and quality check results"
+      }
+    },
+    {
+      "id": "finalize",
+      "type": "tool",
+      "metadata": {
+        "x": 820,
+        "y": 200,
+        "description": "Final processing and cleanup"
+      }
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "metadata": {
+        "x": 1000,
+        "y": 200,
+        "description": "Task completion"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "start",
+      "to": "analyze_input"
+    },
+    {
+      "from": "analyze_input",
+      "to": "simple_task",
+      "condition": "is_simple"
+    },
+    {
+      "from": "analyze_input",
+      "to": "complex_task",
+      "condition": "is_complex"
+    },
+    {
+      "from": "simple_task",
+      "to": "review"
+    },
+    {
+      "from": "complex_task",
+      "to": "review"
+    },
+    {
+      "from": "review",
+      "to": "finalize",
+      "condition": "approved"
+    },
+    {
+      "from": "review",
+      "to": "complex_task",
+      "condition": "needs_rework"
+    },
+    {
+      "from": "finalize",
+      "to": "end"
+    }
+  ]
+}
