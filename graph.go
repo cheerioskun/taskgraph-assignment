@@ -1,7 +1,12 @@
 package main
 
 var (
-	validations = []ValidationFunction{}
+	validations = []ValidationFunction{
+		ValidateStartNodeExists,
+		ValidateEndNodeExists,
+		ValidateNoDuplicateEdges,
+		ValidateConnectivity,
+	}
 )
 
 func NewTaskGraph(nodes []TaskNode, edges []TaskEdge) *TaskGraph {
@@ -37,15 +42,13 @@ func (tg *TaskGraph) buildAdjacencyLists() {
 
 // CheckInvariantViolations validates a task graph against defined invariants
 func CheckInvariantViolations(graph *TaskGraph) []ValidationError {
-	var errors []ValidationError
-
 	for _, validate := range validations {
 		errs := validate(graph)
 		if len(errs) > 0 {
-			errors = append(errors, errs...)
+			return errs
 		}
 	}
-	return errors
+	return nil
 }
 
 // IsValidTaskGraph returns true if the graph has no invariant violations

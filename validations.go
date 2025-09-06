@@ -84,6 +84,7 @@ func ValidateConnectivity(graph *TaskGraph) []ValidationError {
 			}
 		}
 	}
+
 	end := graph.EndNodeID
 	// Create reverse reachability set
 	queue = []string{end}
